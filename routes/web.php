@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CostController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\HourController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('costs', CostController::class);
+Route::resource('events', EventController::class);
+Route::resource('hours', HourController::class);
