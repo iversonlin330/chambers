@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">xx案件費用紀錄</span></h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">xx客戶時數紀錄</span></h4>
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
@@ -14,8 +14,12 @@
                     <thead>
                     <tr>
                         <th>項目</th>
-                        <th>金額</th>
-                        <th>附檔(路徑)</th>
+                        <th>承辦人</th>
+                        <th>日期</th>
+                        <th>起始</th>
+                        <th>結束</th>
+                        <th>時間</th>
+                        <th>折扣</th>
                         <th>編輯</th>
                     </tr>
                     </thead>
@@ -23,8 +27,12 @@
                     @for($i = 1;$i<=5;$i++)
                         <tr>
                             <td>A項目</td>
-                            <td>1000</td>
-                            <td>xxx路徑</td>
+                            <td>David</td>
+                            <td>2023/01/01</td>
+                            <td>起始時間</td>
+                            <td>結束時間</td>
+                            <td>時間</td>
+                            <td>折扣</td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

@@ -1,11 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html
+    lang="en"
+    class="light-style layout-menu-fixed"
+    dir="ltr"
+    data-theme="theme-default"
+    data-assets-path="../assets/"
+    data-template="vertical-menu-template-free"
+>
 <head>
     <title>@yield('title')</title>
-    <!-- 引用編譯後的 CSS 檔案 -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap">
+    <meta charset="utf-8"/>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
+    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+    <meta name="description" content=""/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico"/>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css"/>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="../assets/css/demo.css"/>
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
     <style>
 
         body {
@@ -21,52 +64,59 @@
         @yield('css')
     </style>
 </head>
-<body class="bg-light">
-<main>
-    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Always expand</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02"
-                    aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarsExample02">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('/events') }}">建立事件</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/costs') }}">查看費用紀錄</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/hours/create') }}">時數登錄</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/hours') }}">查看時數登錄</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/hours/export') }}">匯出時數</a>
-                    </li>
-                </ul>
-                <form>
-                    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                </form>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+    @include('layouts.sidebar')
+    <!-- / Menu -->
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+        @include('layouts.navbar')
+        <!-- / Navbar -->
+            <div class="container-wrapper">
+                @yield('content')
             </div>
         </div>
-    </nav>
-    <div class="container">
-        @yield('content')
+        <!-- / Layout page -->
     </div>
-</main>
-<script src="/docs/5.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
 
-<script src="offcanvas.js"></script>
+<div class="buy-now">
+    <a
+        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+        target="_blank"
+        class="btn btn-danger btn-buy-now"
+    >Upgrade to Pro</a
+    >
+</div>
 
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-<!-- 引用編譯後的 JavaScript 檔案 -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="../assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+
+<!-- Main JS -->
+<script src="../assets/js/main.js"></script>
+
+<!-- Page JS -->
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 @yield('script')
 </body>
 </html>
+

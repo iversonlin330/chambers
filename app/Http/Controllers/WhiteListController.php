@@ -14,6 +14,7 @@ class WhiteListController extends Controller
     public function index()
     {
         //
+        return view('white-list');
     }
 
     /**
