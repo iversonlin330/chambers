@@ -99,6 +99,18 @@
             </a>
         </li>
         <li class="menu-item">
+            <a href="{{ url('/todos') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">查看待辦事項</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('/todos/create') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">新增待辦事項</div>
+            </a>
+        </li>
+        <li class="menu-item">
             <a href="{{ url('/white-lists') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">白名單</div>

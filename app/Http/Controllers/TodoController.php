@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class EventController extends Controller
+class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +14,7 @@ class EventController extends Controller
     public function index()
     {
         //
+        return view('todo');
     }
 
     /**
@@ -24,7 +25,7 @@ class EventController extends Controller
     public function create()
     {
         //
-        return view('event-create');
+        return view('todo-create');
     }
 
     /**
@@ -36,6 +37,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         //
+        return view('todo');
     }
 
     /**
