@@ -23,9 +23,9 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('home', function () {
-    return view('welcome');
-});
+//Route::get('home', function () {
+//    return view('welcome');
+//});
 
 Route::get('hours/export', [HourController::class, 'export']);
 Route::post('hours/{id}/export', [HourController::class, 'export']);

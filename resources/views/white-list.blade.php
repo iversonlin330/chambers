@@ -8,6 +8,13 @@
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                {{--                        <h5 class="mb-0">Basic Layout</h5>--}}
+                {{--                        <small class="text-muted float-end">Default label</small>--}}
+                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">新增白名單
+                </button>
+            </div>
             {{--            <h5 class="card-header">Table Basic</h5>--}}
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -46,6 +53,41 @@
             </div>
         </div>
         <!--/ Basic Bootstrap Table -->
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">新增白名單</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="emailWithTitle" class="form-label">Email</label>
+                            <input
+                                type="email"
+                                id="emailWithTitle"
+                                class="form-control"
+                                placeholder="xxxx@xxx.xx"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('script')
