@@ -176,7 +176,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
                         <div class="mb-3">
-                            <a class="btn btn-primary d-grid w-100" href="{{ url('home') }}">Google Login</a>
+                            <a class="btn btn-primary d-grid w-100" href="{{ url('manage-files/step1') }}">Google Login</a>
                         </div>
                     </form>
 

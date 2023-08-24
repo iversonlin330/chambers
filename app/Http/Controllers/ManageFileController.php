@@ -4,17 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CostController extends Controller
+class ManageFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function step1()
     {
         //
-        return view('cost.cost');
+        return view('manage-file.step1');
+    }
+
+    public function step2()
+    {
+        //
+        return view('manage-file.step2');
+    }
+
+    public function step3()
+    {
+        //
+        return view('manage-file.step3');
     }
 
     /**

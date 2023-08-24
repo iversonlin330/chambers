@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CostController;
+use App\Http\Controllers\ManageFileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HourController;
 use App\Http\Controllers\LogController;
@@ -29,6 +30,10 @@ Route::get('/', function () {
 
 Route::get('hours/export', [HourController::class, 'export']);
 Route::post('hours/{id}/export', [HourController::class, 'export']);
+
+Route::get('manage-files/step1', [ManageFileController::class, 'step1']);
+Route::get('manage-files/step2', [ManageFileController::class, 'step2']);
+Route::get('manage-files/step3', [ManageFileController::class, 'step3']);
 
 Route::resource('costs', CostController::class);
 Route::resource('events', EventController::class);
