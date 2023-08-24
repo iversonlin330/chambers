@@ -69,7 +69,7 @@
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
         <li class="menu-item">
-            <a href="{{ url('/manage-files') }}" class="menu-link">
+            <a href="{{ url('/manage-files/step1') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-archive-in"></i>
                 <div data-i18n="Analytics">歸檔</div>
             </a>
