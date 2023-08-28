@@ -69,8 +69,8 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">客戶名稱</label>
                                 <div class="col-sm-10">
-                                    <select class="form-select" id="exampleFormControlSelect1"
-                                            aria-label="Default select example">
+                                    <select class="selectpicker form-control" id="exampleFormControlSelect1"
+                                            aria-label="Default select example" data-live-search="true">
                                         <option selected>案件A</option>
                                         <option value="1">案件B</option>
                                         <option value="2">案件C</option>
