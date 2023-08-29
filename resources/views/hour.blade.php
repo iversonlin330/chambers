@@ -5,7 +5,10 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">xx客戶時數紀錄</span></h4>
-
+        <select class="selectpicker" name="" id="" data-live-search="true">
+            <option value="">案件A</option>
+            <option value="">案件B</option>
+        </select>
         <!-- Basic Bootstrap Table -->
         <div class="card">
             {{--            <h5 class="card-header">Table Basic</h5>--}}

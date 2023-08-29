@@ -25,12 +25,13 @@
                             <tr>
                                 <td>案件A</td>
                                 <td>
-                                    <select class="form-select selectpicker" id="exampleFormControlSelect1"
-                                            aria-label="Default select example">
-                                        <option selected>案件A</option>
-                                        <option value="1">案件B</option>
-                                        <option value="2">案件C</option>
-                                        <option value="3">案件D</option>
+                                    <select class=" selectpicker" id="exampleFormControlSelect1"
+                                            aria-lbel="Default select example">
+                                        <option value="">空白請選此項</option>
+                                        <option value="1">案件A</option>
+                                        <option value="2">案件B</option>
+                                        <option value="3">案件C</option>
+                                        <option value="4">案件D</option>
                                     </select>
                                 </td>
                                 <td><input type="text" class="form-control" placeholder=""></td>

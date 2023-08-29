@@ -13,41 +13,16 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>項目</th>
-                        <th>承辦人</th>
-                        <th>日期</th>
-                        <th>起始</th>
-                        <th>結束</th>
-                        <th>時間</th>
-                        <th>折扣</th>
-                        <th>編輯</th>
+                        <th>客戶</th>
+                        <th>匯出</th>
                     </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                     @for($i = 1;$i<=5;$i++)
                         <tr>
-                            <td>A項目</td>
-                            <td>David</td>
-                            <td>2023/01/01</td>
-                            <td>起始時間</td>
-                            <td>結束時間</td>
-                            <td>時間</td>
-                            <td>折扣</td>
+                            <td>客戶A</td>
                             <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"
-                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                        >
-                                        <a class="dropdown-item" href="javascript:void(0);"
-                                        ><i class="bx bx-trash me-1"></i> Delete</a
-                                        >
-                                    </div>
-                                </div>
+                                <button type="button" class="btn btn-primary">匯出</button>
                             </td>
                         </tr>
                     @endfor
