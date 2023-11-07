@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->scopes(['https://www.googleapis.com/auth/gmail.readonly'])->redirect();
     }
 
     public function handleGoogleCallback()
