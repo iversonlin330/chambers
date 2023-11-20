@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Google\Client;
-use Google\Service\Gmail;
 use Google_Client;
+use Google_Service_Drive;
 use Google_Service_Gmail;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly','https://www.googleapis.com/auth/drive.readonly'];
+
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->scopes(['https://www.googleapis.com/auth/gmail.readonly'])->redirect();
+        return Socialite::driver('google')->scopes($this->scopeArray)->redirect();
     }
 
     public function handleGoogleCallback()
     {
-        $user = Socialite::driver('google')->scopes(['https://www.googleapis.com/auth/gmail.readonly'])->user();
+        $user = Socialite::driver('google')->scopes($this->scopeArray)->user();
 
+//        $this->getGmail($user->token);
+        $this->getGoogleDriveList($user->token);
+
+
+        // 这里可以处理用户信息，如保存到数据库等
+        return redirect('/home');
+    }
+
+    private function getGmail($token){
         $client = new Google_Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CREDENTIALS'), true));
         $client->setAccessType('offline');
@@ -30,19 +38,19 @@ class AuthController extends Controller
         $service = new Google_Service_Gmail($client);
 
         // 获取访问令牌（access token）
-        $accessToken = $user->token;
+        $accessToken = $token;
 
         // 设置访问令牌
         $client->setAccessToken($accessToken);
 
 //        $query = 'has:attachment';
         // 获取邮件列表
-        $results = $service->users_messages->listUsersMessages('me', [ 'maxResults' => 1]); // 获取100封邮件，以确保包含10封附件邮件
+        $results = $service->users_messages->listUsersMessages('me', ['q' => 'has:attachment', 'maxResults' => 1]); // 获取100封邮件，以确保包含10封附件邮件
 
 // 遍历邮件并获取主题、日期和附件信息
         $emails = [];
         foreach ($results->getMessages() as $message) {
-            $email =  $service->users_messages->get('me', $message->getId());
+            $email = $service->users_messages->get('me', $message->getId());
             $subject = '';
             $date = '';
             $attachments = [];
@@ -57,7 +65,6 @@ class AuthController extends Controller
             }
 
             foreach ($email->getPayload()->getParts() as $part) {
-
                 if (isset($part['body']['attachmentId'])) {
 //                    $attachmentId = $part['body']['attachmentId'];
 //                    $attachment = $service->users_messages_attachments->get('me', $message->getId(), $attachmentId);
@@ -70,8 +77,10 @@ class AuthController extends Controller
                     $filename = $part['filename'];
                     // 下载附件到本地文件
                     $attachmentData = base64_decode($attachment->getData());
-                    dd($attachmentData);
-                    file_put_contents("path/to/save/$filename", $attachmentData);
+                    $tempPath = storage_path("app/public/$filename");
+                    // 将附件保存到暂存路径
+                    file_put_contents($tempPath, $attachmentData);
+                    dd('success');
                 }
             }
 
@@ -89,9 +98,33 @@ class AuthController extends Controller
 //        $latestEmails = array_slice($emails, 0, 10);
 
         dd($emails);
+    }
 
+    private function getGoogleDriveList($token)
+    {
+        $client = new Google_Client();
+        $client->setAuthConfig(json_decode(env('GOOGLE_CREDENTIALS'), true));
+        $client->setAccessType('offline');
 
-        // 这里可以处理用户信息，如保存到数据库等
-        return redirect('/home');
+// 创建 Google Drive 服务
+        $driveService = new Google_Service_Drive($client);
+
+        $client->setAccessToken($token);
+
+// 获取文件列表
+        $results = $driveService->files->listFiles();
+// 遍历文件列表
+        $files = [];
+        foreach ($results->getFiles() as $file) {
+            $files[] = [
+                'name' => $file->getName(),
+                'id' => $file->getId(),
+                'mimeType' => $file->getMimeType(),
+                'webViewLink' => $file->getWebViewLink(),
+            ];
+        }
+
+// 打印文件列表
+        dd($files);
     }
 }
