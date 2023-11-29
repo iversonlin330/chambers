@@ -21,8 +21,8 @@ class AuthController extends Controller
         $user = Socialite::driver('google')->scopes($this->scopeArray)->user();
 
 //        $this->getGmail($user->token);
-        $this->getGoogleDriveList($user->token);
-
+        $folders = $this->getGoogleDriveList($user->token);
+dd($folders);
 
         // 这里可以处理用户信息，如保存到数据库等
         return redirect('/home');
@@ -100,7 +100,7 @@ class AuthController extends Controller
         dd($emails);
     }
 
-    private function getGoogleDriveList($token)
+    private function getGoogleDriveList($token, $parentId = null)
     {
         $client = new Google_Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CREDENTIALS'), true));
@@ -111,20 +111,26 @@ class AuthController extends Controller
 
         $client->setAccessToken($token);
 
+        $queryParams = [];
+        if ($parentId !== null) {
+            $queryParams['q'] = "'$parentId' in parents";
+        }
+
 // 获取文件列表
         $results = $driveService->files->listFiles();
 // 遍历文件列表
-        $files = [];
+        $folders = [];
         foreach ($results->getFiles() as $file) {
-            $files[] = [
-                'name' => $file->getName(),
-                'id' => $file->getId(),
-                'mimeType' => $file->getMimeType(),
-                'webViewLink' => $file->getWebViewLink(),
-            ];
+            if ($file->getMimeType() === 'application/vnd.google-apps.folder') {
+                $folders[] = [
+                    'name' => $file->getName(),
+                    'id' => $file->getId(),
+                    'mimeType' => $file->getMimeType(),
+                    'webViewLink' => $file->getWebViewLink(),
+//                    'children' => $this->getGoogleDriveList($token, $file->getId()), // 递归调用
+                ];
+            }
         }
-
-// 打印文件列表
-        dd($files);
+        return $folders;
     }
 }
