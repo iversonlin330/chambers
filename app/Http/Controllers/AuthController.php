@@ -2,33 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Google_Client;
 use Google_Service_Drive;
 use Google_Service_Gmail;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly','https://www.googleapis.com/auth/drive.readonly'];
+    private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/drive.readonly'];
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->scopes($this->scopeArray)->redirect();
+        if (Auth::check()) {
+            return redirect('/manage-files/step1');
+        } else {
+            return Socialite::driver('google')->scopes($this->scopeArray)->redirect();
+        }
     }
 
     public function handleGoogleCallback()
     {
         $user = Socialite::driver('google')->scopes($this->scopeArray)->user();
 
-//        $this->getGmail($user->token);
-        $folders = $this->getGoogleDriveList($user->token);
-dd($folders);
+        $appUser = User::where('email', $user->email)->first();
 
-        // 这里可以处理用户信息，如保存到数据库等
-        return redirect('/home');
+        if ($appUser) {
+            Auth::login($appUser);
+            // 这里可以处理用户信息，如保存到数据库等
+            return redirect('/manage-files/step1');
+        } else {
+            // 如果用戶不存在，創建新用戶
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                // 其他用戶屬性
+            ]);
+
+            // 登入新用戶
+            Auth::login($newUser);
+
+            // 設定 Google Token
+            auth()->user()->update(['google_token' => $user->token]);
+
+            // 这里可以处理用户信息，如保存到数据库等
+            return redirect('/manage-files/step1');
+        }
     }
 
-    private function getGmail($token){
+    private function getGmail($token)
+    {
         $client = new Google_Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CREDENTIALS'), true));
         $client->setAccessType('offline');
