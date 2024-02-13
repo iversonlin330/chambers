@@ -20,17 +20,17 @@
                         </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                        @for($i = 1;$i<=5;$i++)
-                            <tr>
+                        @foreach($folders as $folder)
+                            <tr data-id="{{ $folder['id'] }}">
                                 <td>
-                                    Version
+                                    {{ $folder['name'] }}
                                 </td>
                                 <td>-</td>
                                 <td>
-                                    2 Days ago
+                                    {{ $folder['updated_time'] }}
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

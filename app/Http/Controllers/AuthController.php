@@ -13,6 +13,12 @@ class AuthController extends Controller
 {
     private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/drive.readonly'];
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
     public function redirectToGoogle()
     {
         if (Auth::check()) {
@@ -29,6 +35,7 @@ class AuthController extends Controller
         $appUser = User::where('email', $user->email)->first();
 
         if ($appUser) {
+            User::where('email', $user->email)->update(['google_token' => $user->token]);
             Auth::login($appUser);
             // 这里可以处理用户信息，如保存到数据库等
             return redirect('/manage-files/step1');

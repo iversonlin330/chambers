@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Google\Client;
+use Google\Service\Drive;
 use Google\Service\Gmail;
 use Google_Service_Gmail;
 use Illuminate\Http\Request;
 use Google_Client;
 use Illuminate\Support\Facades\Auth;
+use Google_Service_Drive;
 
 class ManageFileController extends Controller
 {
@@ -40,6 +42,7 @@ class ManageFileController extends Controller
 
 // 遍历邮件并获取主题、日期和附件信息
         $emails = [];
+        $files = [];
         foreach ($results->getMessages() as $message) {
             $email = $service->users_messages->get('me', $message->getId());
             $subject = '';
@@ -72,6 +75,7 @@ class ManageFileController extends Controller
                     // 将附件保存到暂存路径
                     file_put_contents($tempPath, $attachmentData);
 //                    dd('success');
+                    $files[] = $part['filename'];
                 }
             }
 
@@ -79,10 +83,6 @@ class ManageFileController extends Controller
                 $emails[] = ['subject' => $subject, 'date' => $date, 'attachments' => $attachments];
             }
         }
-
-
-
-
 
 
         //
@@ -136,15 +136,50 @@ class ManageFileController extends Controller
 //            $emails[] = ['subject' => $subject, 'date' => $date];
 //        }
 
-        dd($emails);
-
-        return view('manage-file.step1');
+        return view('manage-file.step1', compact('files'));
     }
 
     public function step2()
     {
-        //
-        return view('manage-file.step2');
+        $folders = $this->getGoogleDriveList(Auth::user()->google_token);
+        return view('manage-file.step2', compact('folders'));
+    }
+
+    private function getGoogleDriveList($token, $parentId = null)
+    {
+        $client = new Google_Client();
+        $client->setAuthConfig(json_decode(env('GOOGLE_CREDENTIALS'), true));
+        $client->setAccessType('offline');
+
+// 创建 Google Drive 服务
+        $driveService = new Google_Service_Drive($client);
+
+        $client->setAccessToken($token);
+
+        $queryParams = [];
+        if ($parentId !== null) {
+            $queryParams['q'] = "'$parentId' in parents";
+        }
+
+// 获取文件列表
+        $results = $driveService->files->listFiles([
+            'fields' => 'files(id, name, mimeType, webViewLink, modifiedTime)',
+        ]);
+// 遍历文件列表
+        $folders = [];
+        foreach ($results->getFiles() as $file) {
+            if ($file->getMimeType() === 'application/vnd.google-apps.folder') {
+                $folders[] = [
+                    'name' => $file->getName(),
+                    'id' => $file->getId(),
+                    'mimeType' => $file->getMimeType(),
+                    'webViewLink' => $file->getWebViewLink(),
+                    'updated_time' => date('Y-m-d H:i:s', strtotime($file->getModifiedTime())),
+//                    'children' => $this->getGoogleDriveList($token, $file->getId()), // 递归调用
+                ];
+            }
+        }
+        return $folders;
     }
 
     public function step3()
@@ -166,7 +201,7 @@ class ManageFileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -177,7 +212,7 @@ class ManageFileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -188,7 +223,7 @@ class ManageFileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -199,8 +234,8 @@ class ManageFileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -211,7 +246,7 @@ class ManageFileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

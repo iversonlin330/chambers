@@ -25,6 +25,8 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::get('/auth/logout', [AuthController::class, 'logout']);
+
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 

@@ -20,15 +20,15 @@
                         </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                        @for($i = 1;$i<=5;$i++)
-                            <tr data-id="{{ $i }}">
+                        @foreach($files as $file)
+                            <tr data-id="{{ $loop->index }}">
                                 <td>
                                     <div class="form-check mt-3">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                                        <input class="form-check-input" type="checkbox" value="{{ $file }}" id="defaultCheck1"/>
                                         <label class="form-check-label" for="defaultCheck1"></label>
                                     </div>
                                 </td>
-                                <td>{{ $i }}</td>
+                                <td>{{ $file }}</td>
                                 <td>
                                     {{--                                    <input type="text" class="form-control">--}}
                                     {{--                                    <select class="form-select" name="" id="">--}}
@@ -37,14 +37,14 @@
                                     {{--                                    </select>--}}
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="歸檔檔名" aria-label="歸檔檔名"
-                                               aria-describedby="button-addon2" id="input_{{$i}}">
+                                               aria-describedby="button-addon2" id="input_{{ $loop->index }}">
                                         <button class="btn btn-outline-primary quick_modal_btn" type="button"
                                                 id="button-addon2">快選
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
