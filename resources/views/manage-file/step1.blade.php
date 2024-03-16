@@ -24,7 +24,8 @@
                             <tr data-id="{{ $loop->index }}">
                                 <td>
                                     <div class="form-check mt-3">
-                                        <input class="form-check-input" type="checkbox" value="{{ $file }}" id="defaultCheck1"/>
+                                        <input class="form-check-input" type="checkbox" value="{{ $file }}"
+                                               id="defaultCheck1"/>
                                         <label class="form-check-label" for="defaultCheck1"></label>
                                     </div>
                                 </td>
@@ -51,7 +52,8 @@
                 <div class="row justify-content-end mt-3">
                     <div class="col-sm-6">
                         {{--                        <button type="submit" class="btn btn-primary">下一步</button>--}}
-                        <a class="btn btn-primary" href="{{ url('manage-files/step2') }}">下一步</a>
+{{--                        <a class="btn btn-primary" href="{{ url('manage-files/step2') }}">下一步</a>--}}
+                        <a class="btn btn-primary" href="#" onclick="postFile()">下一步</a>
                     </div>
                 </div>
             </div>
@@ -114,5 +116,25 @@
             console.log("#input_" + data_id);
             $('#modalCenter').modal('hide');
         })
+
+        function postFile() {
+            let dataToStore = [];
+
+            $('tr[data-id] .form-check-input:checked').each(function() {
+                let rowData = {};
+
+                // 获取复选框的值
+                rowData.checkboxValue = $(this).val();
+
+                // 获取相应的文本框的值
+                rowData.inputValue = $(this).closest('tr').find('.form-control').val();
+
+                // 将数据添加到要发送的数组中
+                dataToStore.push(rowData);
+            });
+            let dataJSON = JSON.stringify(dataToStore);
+            localStorage.setItem('postFiles', dataJSON);
+            window.location.href = "{{ url('manage-files/step2') }}";
+        }
     </script>
 @endsection
