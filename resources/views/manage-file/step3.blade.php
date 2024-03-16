@@ -11,7 +11,7 @@
             {{--            <h5 class="card-header">Table Basic</h5>--}}
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table id="cost_table" class="table table-bordered">
                         <thead>
                         <tr>
                             <th>路徑</th>
@@ -21,11 +21,11 @@
                         </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                        @for($i = 1;$i<=5;$i++)
+                        @for($i = 1;$i<=0;$i++)
                             <tr>
                                 <td>案件A</td>
                                 <td>
-                                    <select class=" selectpicker" id="exampleFormControlSelect1"
+                                    <select class="selectpicker" id="exampleFormControlSelect1"
                                             aria-lbel="Default select example">
                                         <option value="">空白請選此項</option>
                                         <option value="1">案件A</option>
@@ -61,6 +61,30 @@
             $('#toggle-sidebar-btn').click(function () {
                 $('#sidebar').toggleClass('d-none');
                 $('#main-content').toggleClass('col-md-9 col-md-12');
+            });
+            let files = localStorage.getItem('postFiles');
+            files = JSON.parse(files);
+            console.log(files);
+            files.forEach(function(file) {
+                // 创建新的表格行
+                let newRow = $('<tr>');
+
+                // 添加第一个单元格（案件名称）
+                newRow.append('<td>' + file.checkboxValue + '</td>');
+
+                // 添加第二个单元格（选择案件下拉列表）
+                let selectOptions = '<option value="">空白請選此項</option>';
+                for (let i = 0; i < 5; i++) {
+                    selectOptions += '<option value="' + (i + 1) + '">' + '案件' + String.fromCharCode(65 + i) + '</option>';
+                }
+                newRow.append('<td><select class="form-control">' + selectOptions + '</select></td>');
+
+                // 添加第三个和第四个单元格（文本框）
+                newRow.append('<td><input type="text" class="form-control" placeholder=""></td>');
+                newRow.append('<td><input type="number" class="form-control" placeholder=""></td>');
+
+                // 将新行添加到表格的 <tbody> 中
+                $('#cost_table tbody').append(newRow);
             });
         });
     </script>

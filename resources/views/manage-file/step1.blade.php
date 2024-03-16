@@ -111,9 +111,7 @@
         $("#quick_select_btn").click(function () {
             let input_val = $("#quick_select").val();
             let data_id = $(this).attr('data-id');
-            console.log(data_id);
             $("#input_" + data_id).val(input_val);
-            console.log("#input_" + data_id);
             $('#modalCenter').modal('hide');
         })
 
