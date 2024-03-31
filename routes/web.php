@@ -41,6 +41,8 @@ Route::get('manage-files/step1', [ManageFileController::class, 'step1']);
 Route::get('manage-files/step2', [ManageFileController::class, 'step2']);
 Route::get('manage-files/step3', [ManageFileController::class, 'step3']);
 
+Route::post('manage-files/uploadFile', [ManageFileController::class, 'uploadFile']);
+
 Route::resource('costs', CostController::class);
 Route::resource('events', EventController::class);
 Route::resource('hours', HourController::class);

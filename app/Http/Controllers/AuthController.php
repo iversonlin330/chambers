@@ -11,7 +11,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/drive.readonly'];
+    private $scopeArray = ['https://www.googleapis.com/auth/gmail.readonly',
+        'https://www.googleapis.com/auth/drive'];
 
     public function logout()
     {

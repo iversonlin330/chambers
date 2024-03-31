@@ -19,11 +19,10 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">客戶</label>
                                 <div class="col-sm-10">
-                                    <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                                        <option selected>案件A</option>
-                                        <option value="1">案件B</option>
-                                        <option value="2">案件C</option>
-                                        <option value="3">案件D</option>
+                                    <select name="event_id" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                                        @foreach($events as $event)
+                                            <option value="{{ $event->id }}">{{ $event->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -47,14 +46,14 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-phone">律師列表</label>
                                 <div class="col-sm-10">
-                                    @for($i=0;$i<=3;$i++)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked="">
-                                        <label class="form-check-label" for="defaultCheck2">
-                                            abc@com
-                                        </label>
-                                    </div>
-                                    @endfor
+                                    @foreach($email_list as $email)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="{{ $email }}" id="defaultCheck2" checked="">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                {{ $email }}
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="row mb-3">

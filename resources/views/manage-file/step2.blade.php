@@ -95,14 +95,30 @@
         function postFolder() {
             let dataIds = [];
 
-            $('#folder_table tbody tr').each(function() {
+            $('#folder_table tbody tr').each(function () {
                 let dataId = $(this).attr('id');
                 dataIds.push(dataId);
             });
 
-            let dataJSON = JSON.stringify(dataIds);
-            localStorage.setItem('postFolders', dataJSON);
-            window.location.href = "{{ url('manage-files/step3') }}";
+            let foldersJson = JSON.stringify(dataIds);
+            localStorage.setItem('postFolders', foldersJson);
+
+            let files = localStorage.getItem('postFiles');
+            files = JSON.parse(files);
+            // console.log(files);
+            // console.log(folders);
+
+            let postData = {
+                folders: dataIds,
+                files: files,
+                _token: "{{ csrf_token() }}",
+            }
+
+            $.post("{{ url('manage-files/uploadFile') }}", postData, function (response) {
+                window.location.href = "{{ url('manage-files/step3') }}";
+            });
+
+            {{--window.location.href = "{{ url('manage-files/step3') }}";--}}
         }
     </script>
 @endsection

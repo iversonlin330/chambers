@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Google\Client;
 use Google\Service\Drive;
+use Google\Service\Drive\DriveFile;
 use Google\Service\Gmail;
 use Google_Service_Gmail;
 use Illuminate\Http\Request;
 use Google_Client;
 use Illuminate\Support\Facades\Auth;
 use Google_Service_Drive;
+use Illuminate\Support\Facades\Storage;
 
 class ManageFileController extends Controller
 {
@@ -182,10 +185,38 @@ class ManageFileController extends Controller
         return $folders;
     }
 
+    public function uploadFile(Request $request)
+    {
+        $data = $request->all();
+        $parentFolderIds = $data['folders'];
+        $files = $data['files'];
+        $this->googleClient->setAccessToken(Auth::user()->google_token);
+
+        $driveService = new Drive($this->googleClient);
+        foreach ($files as $file) {
+            $fileMetadata = new DriveFile([
+                'name' => $file['inputValue'],
+                'parents' => $parentFolderIds // 將檔案上傳到指定的父資料夾
+            ]);
+
+            $content = Storage::get('public/' . $file['checkboxValue']);
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, storage_path('app/public/' . $file['checkboxValue']));
+            finfo_close($finfo);
+
+            $driveService->files->create($fileMetadata, [
+                'data' => $content,
+                'mimeType' => $mimeType,
+                'uploadType' => 'multipart'
+            ]);
+        }
+    }
+
     public function step3()
     {
         //
-        return view('manage-file.step3');
+        $events = Event::all();
+        return view('manage-file.step3', compact('events'));
     }
 
     /**
