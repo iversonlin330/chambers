@@ -35,13 +35,15 @@ class CostController extends Controller
                     'event_id' => $data['event_id'][$i],
                     'item' => $data['item'][$i],
                     'amount' => $data['amount'][$i],
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             }
         }
 
         Cost::insert($result);
 
-        redirect('');
+        return redirect('events/create');
     }
 
     /**

@@ -14,22 +14,30 @@
 {{--                        <small class="text-muted float-end">Default label</small>--}}
                     </div>
                     <div class="card-body">
-                        <form action="{{ url('todos') }}" method="post">
+                        <form action="{{ url('events') }}" method="post">
                             @csrf
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">客戶</label>
                                 <div class="col-sm-10">
-                                    <select name="event_id" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                                        @foreach($events as $event)
-                                            <option value="{{ $event->id }}">{{ $event->name }}</option>
-                                        @endforeach
-                                    </select>
+{{--                                    <select name="event_id" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">--}}
+{{--                                        @foreach($events as $event)--}}
+{{--                                            <option value="{{ $event->id }}">{{ $event->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+                                    <input
+                                        name="customer"
+                                        type="text"
+                                        class="form-control"
+                                        id="basic-default-company"
+                                        placeholder="客戶"
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">事由</label>
                                 <div class="col-sm-10">
                                     <input
+                                        name="event"
                                         type="text"
                                         class="form-control"
                                         id="basic-default-company"
@@ -40,7 +48,7 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-phone">備註</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1"></textarea>
+                                    <textarea name="note" class="form-control" id="exampleFormControlTextarea1"></textarea>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -48,7 +56,7 @@
                                 <div class="col-sm-10">
                                     @foreach($email_list as $email)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $email }}" id="defaultCheck2" checked="">
+                                            <input name="email[]" class="form-check-input" type="checkbox" value="{{ $email }}" id="defaultCheck2" checked="">
                                             <label class="form-check-label" for="defaultCheck2">
                                                 {{ $email }}
                                             </label>
@@ -60,9 +68,10 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-phone">起始日期</label>
                                 <div class="col-sm-10">
                                     <input
+                                        name="start_time"
                                         class="form-control"
                                         type="datetime-local"
-                                        value="2021-06-18T12:30:00"
+                                        value="{{ date('Y-m-d\TH:i:s') }}"
                                         id="html5-datetime-local-input"
                                     />
                                 </div>
@@ -71,9 +80,10 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-phone">結束日期</label>
                                 <div class="col-sm-10">
                                     <input
+                                        name="end_time"
                                         class="form-control"
                                         type="datetime-local"
-                                        value="2021-06-18T12:30:00"
+                                        value="{{ date('Y-m-d\TH:i:s') }}"
                                         id="html5-datetime-local-input"
                                     />
                                 </div>

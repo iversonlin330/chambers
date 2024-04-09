@@ -62,7 +62,7 @@ class ManageFileController extends Controller
             }
 
             foreach ($email->getPayload()->getParts() as $part) {
-                if (isset($part['body']['attachmentId'])) {
+                if (isset($part['body']['attachmentId']) && $part['filename']) {
 //                    $attachmentId = $part['body']['attachmentId'];
 //                    $attachment = $service->users_messages_attachments->get('me', $message->getId(), $attachmentId);
 //                    $attachments[] = [
